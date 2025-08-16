@@ -1,0 +1,32 @@
+/* Gemini 버튼 자체의 스타일 */
+.gemini-summary-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  /* ▼▼▼ 아이콘을 중앙 정렬하는 핵심 코드 ▼▼▼ */
+  /* 유튜브의 다른 스타일에 덮어쓰이지 않도록 !important를 추가합니다. */
+  display: flex !important;
+  align-items: center !important;     /* 수직 중앙 정렬 */
+  justify-content: center !important; /* 수평 중앙 정렬 */
+  /* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+
+  /* 버튼의 전체적인 크기를 유튜브 다른 아이콘과 비슷하게 맞춥니다. */
+  width: 40px;
+  height: 40px;
+}
+
+/* 버튼 안의 Gemini 로고 이미지 스타일 */
+.gemini-logo-img {
+  /* 아이콘 크기 조절 */
+  width: 28px;
+  height: 28px;
+  border-radius: 50%; /* 원형 유지 */
+  transition: transform 0.1s ease-in-out; /* 부드러운 효과 */
+}
+
+/* 마우스를 올렸을 때 아이콘이 살짝 커지는 효과 */
+.gemini-summary-button:hover .gemini-logo-img {
+    transform: scale(1.1);
+}
