@@ -5,7 +5,7 @@ window.onload = () => {
     // 저장된 URL이 있을 경우에만 아래 로직을 실행합니다.
     if (result.youtubeURL) {
       const url = result.youtubeURL;
-      const promptText = `다음 유튜브 영상을 설명해줘: ${url}`;
+      const promptText = `다음 유튜브 영상을 최대한 자세하게 설명해줘: ${url}`;
       
       const interval = setInterval(() => {
         const promptInput = document.querySelector('rich-textarea > div[contenteditable="true"]');
