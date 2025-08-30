@@ -5,12 +5,7 @@ window.onload = () => {
     // 저장된 URL이 있을 경우에만 아래 로직을 실행합니다.
     if (result.youtubeURL) {
       const url = result.youtubeURL;
-      const promptText = 
-      `당신은 유튜브 영상 스크립트를 요약하는 유용한 어시스턴트입니다. 
-      제공된 유튜브 URL 영상을 바탕으로, 영상의 핵심 내용과 주요 시사점을 포함된 정리 자료를 작성해 주세요. 자세하면 자세할 수록 좋습니다.
-      명확한 제목을 붙이고, 논의된 주요 주장이나 주제는 글머리 기호(bullet points)를 사용하여 구조화해주세요. 스크립트에 없는 내용은 추가하지 마세요. 
-      어조는 정보 전달에 충실하며 중립적인 톤을 유지해야 합니다. : ${url}`;
-      console.log(promptText);
+      const promptText = `당신은 유튜브 영상 스크립트를 요약하는 유용한 어시스턴트입니다. 제공된 유튜브 URL 영상을 바탕으로, 영상의 핵심 내용과 주요 시사점을 포함된 정리 자료를 작성해 주세요. 자세하면 자세할 수록 좋습니다. 명확한 제목을 붙이고, 논의된 주요 주장이나 주제는 글머리 기호(bullet points)를 사용하여 구조화해주세요. 스크립트에 없는 내용은 추가하지 마세요. 어조는 정보 전달에 충실하며 중립적인 톤을 유지해야 합니다. : ${url}`;
 
       const interval = setInterval(() => {
         const promptInput = document.querySelector('rich-textarea > div[contenteditable="true"]');

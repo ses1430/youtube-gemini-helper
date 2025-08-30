@@ -1,65 +1,74 @@
 /**
- * 특정 요소가 DOM에 나타날 때까지 기다리는 함수
- * @param {string} selector - 기다릴 요소의 CSS 선택자
- * @param {function} callback - 요소가 찾아지면 실행될 콜백 함수
- */
-function waitForElement(selector, callback) {
-  let attempts = 0;
-  const maxAttempts = 20; // 최대 10초 동안 시도 (20 * 500ms)
-  
-  const interval = setInterval(() => {
-    const element = document.querySelector(selector);
-    
-    if (element) {
-      // 요소를 찾았으면 인터벌을 멈추고 콜백 함수를 실행
-      clearInterval(interval);
-      callback(element);
-    }
-    
-    attempts++;
-    if (attempts >= maxAttempts) {
-      // 너무 오래 기다렸으면 인터벌을 멈추고 오류를 기록
-      clearInterval(interval);
-      console.error(`[YouTube to Gemini Helper] Error: '${selector}' 요소를 찾을 수 없습니다.`);
-    }
-  }, 500); // 0.5초마다 확인
-}
-
-/**
  * Gemini 버튼을 추가하는 메인 함수
  */
 function addGeminiButton() {
-  // 버튼이 이미 존재하면 아무것도 하지 않음 (중복 실행 방지)
+  // 중복 추가를 막기 위한 가장 기본적인 확인
   if (document.querySelector('.gemini-summary-button')) {
     return;
   }
-  
-  // '.ytp-right-controls' 요소가 나타날 때까지 기다림
-  waitForElement('.ytp-right-controls', (rightControls) => {
-    // 기다린 후에도 버튼이 없는지 다시 한번 확인
-    if (rightControls.querySelector('.gemini-summary-button')) {
-      return;
+
+  let checkInterval;
+  let attempts = 0;
+  const maxAttempts = 40; // 최대 20초까지 더 넉넉하게 기다립니다.
+
+  const findAndAddButton = () => {
+    // 1. 가장 바깥의 안정적인 컨테이너('#movie_player')를 먼저 찾습니다.
+    const moviePlayer = document.querySelector('#movie_player');
+
+    if (moviePlayer) {
+      // 2. 바깥 컨테이너를 찾았다면, 그 안에서 최종 목표('.ytp-right-controls')를 찾습니다.
+      const rightControls = moviePlayer.querySelector('.ytp-right-controls');
+
+      if (rightControls) {
+        // 3. 최종 목표를 찾았으므로, 모든 확인 작업을 중단하고 버튼을 추가합니다.
+        clearInterval(checkInterval);
+
+        // 마지막으로 버튼이 없는지 한번 더 확인합니다.
+        if (rightControls.querySelector('.gemini-summary-button')) {
+          return;
+        }
+
+        const geminiButton = document.createElement('button');
+        geminiButton.className = 'ytp-button gemini-summary-button';
+        geminiButton.title = 'Gemini로 이 영상 설명 요청하기';
+        const iconURL = chrome.runtime.getURL('gemini_logo.png');
+        geminiButton.innerHTML = `<img src="${iconURL}" class="gemini-logo-img">`;
+
+        geminiButton.addEventListener('click', (e) => {
+          e.stopPropagation();
+          try {
+            chrome.runtime.sendMessage({ action: 'openGemini', url: window.location.href });
+          } catch (error) {
+            alert("확장 프로그램이 업데이트되었습니다. 페이지를 새로고침한 후 아이콘을 다시 클릭해 주세요.");
+          }
+        });
+
+        rightControls.prepend(geminiButton);
+        return; // 성공했으므로 함수 종료
+      }
     }
 
-    const geminiButton = document.createElement('button');
-    geminiButton.className = 'ytp-button gemini-summary-button';
-    geminiButton.title = 'Gemini로 이 영상 설명 요청하기';
+    // 아직 못 찾았거나 시도 횟수가 남았다면 계속 시도
+    attempts++;
+    if (attempts >= maxAttempts) {
+      clearInterval(checkInterval); // 20초가 지나면 자동 중단
+    }
+  };
 
-    const iconURL = chrome.runtime.getURL('gemini_logo.png');
-    geminiButton.innerHTML = `<img src="${iconURL}" class="gemini-logo-img">`;
-
-    geminiButton.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const videoURL = window.location.href;
-      chrome.runtime.sendMessage({ action: 'openGemini', url: videoURL });
-    });
-
-    rightControls.prepend(geminiButton);
-  });
+  // 0.5초마다 위의 확인 함수를 실행합니다.
+  checkInterval = setInterval(findAndAddButton, 500);
 }
 
-// 유튜브의 페이지 이동(내비게이션)이 완료될 때마다 버튼 추가 함수를 실행
-document.addEventListener('yt-navigate-finish', addGeminiButton);
+/**
+ * 확장 프로그램을 초기화하는 함수
+ */
+function init() {
+  document.addEventListener('yt-navigate-finish', addGeminiButton);
+  if (document.readyState === 'complete') {
+    addGeminiButton();
+  } else {
+    window.addEventListener('load', addGeminiButton);
+  }
+}
 
-// 스크립트가 처음 로드되었을 때도(새로고침 등) 함수를 한 번 실행
-addGeminiButton();
+init();
