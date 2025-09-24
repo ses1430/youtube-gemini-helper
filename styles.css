@@ -1,32 +1,29 @@
-/* Gemini 버튼 자체의 스타일 */
-.gemini-summary-button {
-  background-color: transparent;
-  border: none;
+/* Gemini 텍스트 버튼 스타일 */
+.gemini-summary-button-external {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  padding: 0;
-
-  /* ▼▼▼ 아이콘을 중앙 정렬하는 핵심 코드 ▼▼▼ */
-  /* 유튜브의 다른 스타일에 덮어쓰이지 않도록 !important를 추가합니다. */
-  display: flex !important;
-  align-items: center !important;     /* 수직 중앙 정렬 */
-  justify-content: center !important; /* 수평 중앙 정렬 */
-  /* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
-
-  /* 버튼의 전체적인 크기를 유튜브 다른 아이콘과 비슷하게 맞춥니다. */
-  width: 40px;
-  height: 40px;
+  
+  /* 다른 버튼과 모양을 맞춥니다 */
+  background-color: #f2f2f2; /* 유튜브 버튼 배경색 */
+  border-radius: 18px; /* 둥근 모서리 */
+  height: 36px;
+  padding: 0 16px; /* 텍스트에 맞게 좌우 여백 조정 */
+  margin-right: 8px; /* 오른쪽 버튼과의 간격 */
+  
+  /* 텍스트 스타일 추가 */
+  color: #0f0f0f; /* 유튜브 본문 텍스트 색상 */
+  font-family: "Roboto", "Arial", sans-serif; /* 유튜브 기본 폰트 */
+  font-size: 14px;
+  font-weight: 500;
+  
+  transition: background-color 0.2s;
 }
 
-/* 버튼 안의 Gemini 로고 이미지 스타일 */
-.gemini-logo-img {
-  /* 아이콘 크기 조절 */
-  width: 28px;
-  height: 28px;
-  border-radius: 50%; /* 원형 유지 */
-  transition: transform 0.1s ease-in-out; /* 부드러운 효과 */
+/* 마우스를 올렸을 때 배경색 변경 */
+.gemini-summary-button-external:hover {
+  background-color: #e5e5e5;
 }
 
-/* 마우스를 올렸을 때 아이콘이 살짝 커지는 효과 */
-.gemini-summary-button:hover .gemini-logo-img {
-    transform: scale(1.1);
-}
+/* 이미지 관련 스타일은 더 이상 필요 없으므로 삭제합니다. */
