@@ -5,23 +5,23 @@ window.onload = () => {
     // 저장된 URL이 있을 경우에만 아래 로직을 실행합니다.
     if (result.youtubeURL) {
       const url = result.youtubeURL;
-      const promptText = `당신은 유튜브 링크의 영상과 스크립트를 분석하여 구조화된 요약본을 생성하는 전문 어시스턴트입니다.
-제공된 유튜브 URL의 영상과 스크립트를 기반으로, 영상의 전체적인 흐름과 핵심 정보를 빠르게 파악할 수 있도록 상세한 정리 자료를 작성해 주세요.
+      const promptText = `You are an expert assistant specialized in analyzing YouTube videos and their transcripts to generate structured summaries. 
+Based on the provided YouTube URL, video, and transcript, create a detailed summary that allows for a quick understanding of the video's overall flow and core information.
 
-결과물은 다음 구조를 따라야 합니다:
+The output must follow this structure:
+1. Title: A clear title that reflects the video's main topic.
+2. Overall Summary: A concise summary (2-3 sentences) of the video's core theme and conclusion.
+3. Key Content:
+  - Detail the main arguments, information, and topics discussed in the video in logical order (or order of importance). (Use bullet points)
+  - Each point must faithfully reflect the content of the transcript.
+4. Key Takeaways and Conclusion:
+  - Separately summarize the conclusion, lessons, or implications that the speaker explicitly states, whether in the main body or at the end of the video.
 
-1.  **제목:** 영상의 주제를 명확히 나타내는 제목
-2.  **전체 요약:** 영상의 핵심 주제와 결론을 2-3문장으로 간결하게 요약
-3.  **주요 내용:**
-    * 영상에서 논의된 주요 주장, 정보, 주제들을 논리적 순서(또는 중요도 순)에 따라 상세하게 기술합니다. (글머리 기호 사용)
-    * 각 항목은 스크립트의 내용을 충실히 반영해야 합니다.
-4.  **핵심 시사점 및 결론:**
-    * 영상의 마지막 부분이나 본문에서 화자가 '명시적으로' 제시하는 결론, 교훈, 또는 시사점을 별도로 정리합니다.
-
-[제약 조건]
-* 영상이 섹션으로 구분되어 있다면 주요 내용 역시 섹션별로 나누어 작성합니다.
-* 스크립트에 근거하지 않은 추론이나 외부 정보는 절대 포함하지 마세요.
-* 어조는 객관적이고 정보 전달에 충실한 중립적인 톤을 유지해야 합니다. ${url}`;
+[Constraints]
+If the video is divided into sections, the 'Key Content' should also be organized by these sections.
+Absolutely do not include inferences or external information not based on the transcript.
+The tone must remain objective, neutral, and strictly informational.
+Think in English, but provide the final summary output only in Korean. ${url}`;
 
       const interval = setInterval(() => {
         const promptInput = document.querySelector('rich-textarea > div[contenteditable="true"]');
