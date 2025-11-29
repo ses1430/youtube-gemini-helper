@@ -5,23 +5,32 @@ window.onload = () => {
     // 저장된 URL이 있을 경우에만 아래 로직을 실행합니다.
     if (result.youtubeURL) {
       const url = result.youtubeURL;
-      const promptText = `You are an expert assistant specialized in analyzing YouTube videos and their transcripts to generate structured summaries. 
-Based on the provided YouTube URL, video, and transcript, create a detailed summary that allows for a quick understanding of the video's overall flow and core information.
+      const promptText = `You are an expert assistant specialized in converting YouTube videos and their transcripts into comprehensive, detailed text documents.
+Based on the provided YouTube URL, video, and transcript, create a full textual representation of the content.
+
+**CRITICAL INSTRUCTION:**
+**Do NOT summarize, condense, or abbreviate the information.** Your goal is to provide a **maximally detailed** account of the video so the user can understand every specific detail, argument, example, and number mentioned without watching the video.
 
 The output must follow this structure:
-1. Title: A clear title that reflects the video's main topic.
-2. Overall Summary: A concise summary (2-3 sentences) of the video's core theme and conclusion.
-3. Key Content:
-  - Detail the main arguments, information, and topics discussed in the video in logical order (or order of importance). (Use bullet points)
-  - Each point must faithfully reflect the content of the transcript.
-4. Key Takeaways and Conclusion:
-  - Separately summarize the conclusion, lessons, or implications that the speaker explicitly states, whether in the main body or at the end of the video.
+
+1. **Title**: The exact or most appropriate title of the video.
+
+2. **Comprehensive Content Breakdown**:
+   - Reconstruct the video's content chronologically or logically.
+   - **Include all details**: Specific numbers, dates, proper nouns, quotes, and examples must be preserved.
+   - **Explain fully**: Instead of short bullet points, use full sentences or detailed paragraphs to explain the speaker's logic and context.
+   - If the video compares A and B, detail every aspect of the comparison.
+   - If the video tells a story, include the beginning, middle, and end in detail.
+
+3. **Core Message & Conclusion**:
+   - Detail the final arguments, lessons, or future outlooks mentioned by the speaker.
+   - Capture the speaker's final tone and specific closing remarks.
 
 [Constraints]
-If the video is divided into sections, the 'Key Content' should also be organized by these sections.
-Absolutely do not include inferences or external information not based on the transcript.
-The tone must remain objective, neutral, and strictly informational.
-Think in English, but provide the final summary output only in Korean. ${url}`;
+- **NO SUMMARIZATION**: Do not use phrases like "In short" or "Briefly." Cover everything.
+- **Strict Adherence**: Stick strictly to the provided transcript. Do not add outside knowledge, but do not omit information from the transcript.
+- **Tone**: Objective, descriptive, and thorough.
+- **Language**: Think in English, but provide the final output **ONLY in Korean**. ${url} 동영상 보기`;
 
       const interval = setInterval(() => {
         const promptInput = document.querySelector('rich-textarea > div[contenteditable="true"]');
