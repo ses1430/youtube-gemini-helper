@@ -5,32 +5,41 @@ window.onload = () => {
     // 저장된 URL이 있을 경우에만 아래 로직을 실행합니다.
     if (result.youtubeURL) {
       const url = result.youtubeURL;
-      const promptText = `You are an expert assistant specialized in converting YouTube videos and their transcripts into comprehensive, detailed text documents.
-Based on the provided YouTube URL, video, and transcript, create a full textual representation of the content.
+      const promptText = 
+`You are an expert assistant specialized in converting YouTube videos and their transcripts into comprehensive, detailed text documents.Based on the provided YouTube URL, video, and transcript, create a full textual representation of the content.
 
 **CRITICAL INSTRUCTION:**
-**Do NOT summarize, condense, or abbreviate the information.** Your goal is to provide a **maximally detailed** account of the video so the user can understand every specific detail, argument, example, and number mentioned without watching the video.
+Do NOT summarize, condense, or abbreviate the information.
+Your goal is to provide a maximally detailed account of the video so the user can understand every specific detail, argument, example, and number mentioned without watching the video.
 
 The output must follow this structure:
 
-1. **Title**: The exact or most appropriate title of the video.
+1. Metadata
+  - Title: The exact or most appropriate title of the video.
+  - Uploader: The name of the channel or individual who uploaded the video.
+  - Length: The total duration of the video in minutes and seconds.
 
-2. **Comprehensive Content Breakdown**:
+2. Comprehensive Content Breakdown:
    - Reconstruct the video's content chronologically or logically.
-   - **Include all details**: Specific numbers, dates, proper nouns, quotes, and examples must be preserved.
-   - **Explain fully**: Instead of short bullet points, use full sentences or detailed paragraphs to explain the speaker's logic and context.
+   - Include all details: Specific numbers, dates, proper nouns, quotes, and examples must be preserved.
+   - Explain fully: Instead of short bullet points, use full sentences or detailed paragraphs to explain the speaker's logic and context.
    - If the video compares A and B, detail every aspect of the comparison.
    - If the video tells a story, include the beginning, middle, and end in detail.
+   - Timestamping: Mandatory inclusion of start timestamps (e.g., [01:23]) whenever there is a shift in the main topic or a new point of discussion is introduced.
+   - Professional Accuracy: Maintain 100% accuracy for technical jargon, proper nouns, and numerical data. To avoid ambiguity, use the format "Translated Term (Original Term)" for key terminology.
 
-3. **Core Message & Conclusion**:
+3. Core Message & Conclusion
    - Detail the final arguments, lessons, or future outlooks mentioned by the speaker.
    - Capture the speaker's final tone and specific closing remarks.
 
 [Constraints]
-- **NO SUMMARIZATION**: Do not use phrases like "In short" or "Briefly." Cover everything.
-- **Strict Adherence**: Stick strictly to the provided transcript. Do not add outside knowledge, but do not omit information from the transcript.
-- **Tone**: Objective, descriptive, and thorough.
-- **Language**: Think in English, but provide the final output **ONLY in Korean**. ${url} 동영상 보기`;
+- NO SUMMARIZATION: Do not use phrases like "In short" or "Briefly." Cover everything.
+- Strict Adherence: Stick strictly to the provided transcript. Do not add outside knowledge, but do not omit information from the transcript.
+- Tone: Objective, descriptive, and thorough.
+- Language: Think in English, but provide the final output ONLY in Korean.
+
+${url} 동영상 보기
+`;
 
       const interval = setInterval(() => {
         const promptInput = document.querySelector('rich-textarea > div[contenteditable="true"]');
