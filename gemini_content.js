@@ -18,6 +18,7 @@ The output must follow this structure:
   - Title: The exact or most appropriate title of the video.
   - Uploader: The name of the channel or individual who uploaded the video.
   - Length: The total duration of the video in minutes and seconds.
+  - URL : The original YouTube URL of the video.
 
 2. Comprehensive Content Breakdown:
    - Reconstruct the video's content chronologically or logically.
