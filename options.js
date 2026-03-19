@@ -16,9 +16,8 @@ const DEFAULT_PROMPT =
 
 2. 포괄적 내용 분석:
   - 타임스탬프: 주요 주제가 전환되거나 새로운 논점이 도입될 때마다 시작 타임스탬프(예: [01:23])를 반드시 포함하세요.
-  - 동영상의 모든 내용을 기술하되, 핵심 내용을 간결한 표현으로 Bullet Point List 형식으로 작성하세요.
-  - 각 Bullet Point는 하나의 주요 아이디어, 논거, 예시 또는 수치 데이터를 다루어야 합니다.
-  - 각 Bullet Point는 "~입니다"와 같은 완전한 문장이 아닌, 간결한 단문으로 작성하세요.
+  - 동영상의 모든 내용을 기술하되, 핵심 내용을 간결한 표현으로 Bullet Point List 형식으로 작성하세요. 각 Bullet Point는 하나의 주요 아이디어, 논거, 예시 또는 수치 데이터를 다루어야 합니다.
+
   - 전문적 정확성: 전문 용어, 고유명사, 수치 데이터에 대해 100% 정확성을 유지하세요. 모호함을 피하기 위해 핵심 용어는 "번역된 용어 (원어)" 형식을 사용하세요.
 
 3. 핵심 메시지 및 결론
@@ -34,36 +33,31 @@ const DEFAULT_PROMPT =
 \${url} 동영상 보기
 `;
 
-window.onload = () => {
-  chrome.storage.local.get(['youtubeURL', 'customPrompt'], (result) => {
-    if (result.youtubeURL) {
-      const url = result.youtubeURL;
-      const template = result.customPrompt !== undefined ? result.customPrompt : DEFAULT_PROMPT;
-      const promptText = template.replace('${url}', url);
+const textarea = document.getElementById('promptTextarea');
+const saveBtn = document.getElementById('saveBtn');
+const resetBtn = document.getElementById('resetBtn');
+const status = document.getElementById('status');
 
-      const interval = setInterval(() => {
-        const promptInput = document.querySelector('rich-textarea > div[contenteditable="true"]');
+// 저장된 프롬프트 불러오기
+chrome.storage.local.get(['customPrompt'], (result) => {
+  textarea.value = result.customPrompt !== undefined ? result.customPrompt : DEFAULT_PROMPT;
+});
 
-        if (promptInput) {
-          clearInterval(interval);
-
-          promptInput.textContent = promptText;
-
-          setTimeout(() => {
-            const submitButton = document.querySelector('button[aria-label="메시지 보내기"], button[aria-label="Send message"]');
-
-            console.log("1초 후 찾은 전송 버튼:", submitButton);
-
-            if (submitButton) {
-              submitButton.click();
-            } else {
-              console.error("1초 후에도 전송 버튼을 찾을 수 없습니다! 선택자를 다시 확인하세요.");
-            }
-
-            chrome.storage.local.remove('youtubeURL');
-          }, 1000);
-        }
-      }, 500);
-    }
+// 저장
+saveBtn.addEventListener('click', () => {
+  chrome.storage.local.set({ customPrompt: textarea.value }, () => {
+    status.classList.add('show');
+    setTimeout(() => status.classList.remove('show'), 2000);
   });
-};
+});
+
+// 기본값 초기화
+resetBtn.addEventListener('click', () => {
+  if (confirm('프롬프트를 기본값으로 초기화하시겠습니까?')) {
+    textarea.value = DEFAULT_PROMPT;
+    chrome.storage.local.set({ customPrompt: DEFAULT_PROMPT }, () => {
+      status.classList.add('show');
+      setTimeout(() => status.classList.remove('show'), 2000);
+    });
+  }
+});

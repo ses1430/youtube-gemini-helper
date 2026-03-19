@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube Gemini Helper - 설정</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f8f9fa;
+      color: #202124;
+      min-height: 100vh;
+      padding: 32px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    header img {
+      width: 32px;
+      height: 32px;
+    }
+
+    header h1 {
+      font-size: 22px;
+      font-weight: 600;
+      color: #1a73e8;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #202124;
+    }
+
+    .card p {
+      font-size: 13px;
+      color: #5f6368;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    textarea {
+      width: 100%;
+      height: 420px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      padding: 14px;
+      resize: vertical;
+      outline: none;
+      color: #202124;
+      transition: border-color 0.2s;
+    }
+
+    textarea:focus {
+      border-color: #1a73e8;
+    }
+
+    .placeholder-hint {
+      font-size: 12px;
+      color: #1a73e8;
+      margin-top: 8px;
+      background: #e8f0fe;
+      border-radius: 6px;
+      padding: 8px 12px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-top: 18px;
+    }
+
+    button {
+      padding: 9px 22px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, opacity 0.15s;
+    }
+
+    #saveBtn {
+      background: #1a73e8;
+      color: #fff;
+    }
+
+    #saveBtn:hover {
+      background: #1557b0;
+    }
+
+    #resetBtn {
+      background: #f1f3f4;
+      color: #5f6368;
+    }
+
+    #resetBtn:hover {
+      background: #e8eaed;
+    }
+
+    #status {
+      font-size: 13px;
+      color: #34a853;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    #status.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="gemini_logo.png" alt="logo">
+      <h1>YouTube Gemini Helper 설정</h1>
+    </header>
+
+    <div class="card">
+      <h2>Gemini 프롬프트 편집</h2>
+      <p>Gemini에 전송될 프롬프트를 자유롭게 수정하세요. <code>${url}</code> 자리에 YouTube 영상 URL이 자동으로 삽입됩니다.</p>
+      <textarea id="promptTextarea" spellcheck="false" placeholder="프롬프트를 입력하세요..."></textarea>
+      <div class="placeholder-hint">
+        💡 <code>${url}</code> 를 프롬프트 내 원하는 위치에 넣으면 영상 URL로 대체됩니다.
+      </div>
+      <div class="actions">
+        <button id="saveBtn">저장</button>
+        <button id="resetBtn">기본값으로 초기화</button>
+        <span id="status">✓ 저장되었습니다</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
