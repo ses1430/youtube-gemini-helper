@@ -26,3 +26,15 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     }
   }
 });
+
+// youtube_content.js의 버튼 클릭 메시지를 처리합니다.
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === 'openGemini') {
+    const videoURL = message.url;
+    if (videoURL) {
+      chrome.storage.local.set({ youtubeURL: videoURL }, () => {
+        chrome.tabs.create({ url: 'https://gemini.google.com/' });
+      });
+    }
+  }
+});

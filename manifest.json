@@ -28,6 +28,11 @@
     {
       "matches": ["https://gemini.google.com/*"],
       "js": ["gemini_content.js"]
+    },
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["youtube_content.js"],
+      "css": ["styles.css"]
     }
   ]
 }
